@@ -1,0 +1,6 @@
+{
+  "name": "NaviCraft Admin - Streamlined Rubric Console",
+  "description": "Streamlined administrative console for NaviCraft vessel platform, strictly minimized to the chosen project evaluation modules: Verification Pipeline, User CRUD & RBAC, Real-time Chat, Analytics Charts, and Public API.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

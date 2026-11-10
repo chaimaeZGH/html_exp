@@ -1,0 +1,413 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>NaviCraft — Messages &amp; Friends</title>
+  <meta name="description" content="NaviCraft real-time client messaging, friends presence, and vessel card sharing.">
+  
+  <!-- Google Fonts: Sora, Inter, JetBrains Mono -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&family=Sora:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+  <!-- Tailwind CSS via CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            brand: {
+              obsidian: '#050b14',
+              surface: '#071120',
+              panel: '#0b1626',
+              card: '#0f1c30',
+              gold: '#ffbe4d',
+              goldHover: '#f5a524',
+              teal: '#74bdb3',
+              muted: '#a9b8ca',
+            }
+          },
+          fontFamily: {
+            sans: ['Inter', 'sans-serif'],
+            display: ['Sora', 'sans-serif'],
+            mono: ['JetBrains Mono', 'monospace'],
+          }
+        }
+      }
+    }
+  </script>
+
+  <style>
+    body {
+      background-color: #050b14;
+      color: #f1f5f9;
+      font-family: 'Inter', sans-serif;
+      min-height: 100vh;
+      -webkit-font-smoothing: antialiased;
+    }
+    .font-display { font-family: 'Sora', sans-serif; }
+    .font-mono { font-family: 'JetBrains Mono', monospace; }
+    
+    ::-webkit-scrollbar { width: 5px; height: 5px; }
+    ::-webkit-scrollbar-track { background: #071120; }
+    ::-webkit-scrollbar-thumb { background: #1a273b; border-radius: 9999px; }
+  </style>
+</head>
+<body class="flex flex-col min-h-screen bg-[#050b14] text-slate-100 antialiased selection:bg-[#ffbe4d]/30 selection:text-[#ffbe4d]">
+
+    <!-- Top Role Switcher Header Bar -->
+  <div class="w-full border-b border-white/[0.08] bg-[#071120] px-6 py-2.5 flex items-center justify-between text-xs">
+    <div class="flex items-center gap-2">
+      <span class="w-2 h-2 rounded-full bg-[#ffbe4d] animate-pulse"></span>
+      <span class="font-mono text-[10px] text-[#ffbe4d] tracking-wider uppercase font-semibold">Demo Role Switcher</span>
+      <span class="text-slate-400 hidden sm:inline">— Experience the market, client portal and yard console instantly</span>
+    </div>
+    <div class="flex items-center gap-1.5 font-medium">
+      <a href="visitor.html" class="px-2.5 py-1 rounded text-slate-400 hover:text-white hover:bg-white/[0.04] transition flex items-center gap-1 text-[11px]">
+        <span>👁</span> Visitor
+      </a>
+      <a href="client-dashboard.html" class="px-2.5 py-1 rounded bg-[#0b1626] border border-white/[0.1] text-white font-semibold transition flex items-center gap-1 text-[11px]">
+        <span>👤</span> Client
+      </a>
+      <a href="admin-operations.html" class="px-2.5 py-1 rounded text-slate-400 hover:text-white hover:bg-white/[0.04] transition flex items-center gap-1 text-[11px]">
+        <span>⚓</span> Yard Master
+      </a>
+    </div>
+  </div>
+
+  <!-- Primary Application Layout (Sidebar + Main) -->
+  <div class="flex-1 flex flex-col md:flex-row">
+    
+    <!-- Left Navigation Sidebar -->
+    <aside class="w-full md:w-64 border-r border-white/[0.08] bg-[#071120] p-4 flex flex-col justify-between shrink-0">
+      <div>
+        <!-- Logo -->
+        <a href=\"visitor.html\" class=\"flex items-center gap-3 px-2 py-3 mb-6 hover:opacity-90 transition cursor-pointer\">
+          <div class="w-8 h-8 rounded-lg bg-gradient-to-br from-[#ffbe4d]/20 to-[#74bdb3]/10 border border-[#ffbe4d]/30 flex items-center justify-center text-[#ffbe4d]">
+            <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <polygon points="12 2 2 7 12 12 22 7 12 2"></polygon>
+              <polyline points="2 17 12 22 22 17"></polyline>
+              <polyline points="2 12 12 17 22 12"></polyline>
+            </svg>
+          </div>
+          <div>
+            <div class="font-display font-bold text-base text-white tracking-tight">NaviCraft</div>
+            <div class="font-mono text-[8px] uppercase tracking-widest text-[#74bdb3]">Marine Engineering</div>
+          </div></a>
+
+        <!-- Client Area Menu -->
+        <div class="mb-6">
+          <div class="font-mono text-[10px] uppercase tracking-wider text-slate-400 font-semibold px-2 mb-2">Client Area</div>
+          <nav class="space-y-1">
+            <a href="client-dashboard.html" class="flex items-center gap-3 px-3 py-2 rounded-xl text-slate-300 hover:text-white hover:bg-white/[0.04] text-xs font-medium transition">
+              <svg class="w-4 h-4 text-[#a9b8ca]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7"></rect><rect x="14" y="3" width="7" height="7"></rect><rect x="14" y="14" width="7" height="7"></rect><rect x="3" y="14" width="7" height="7"></rect></svg>
+              <span>Dashboard</span>
+            </a>
+            <a href="client-marketplace.html" class="flex items-center gap-3 px-3 py-2 rounded-xl text-slate-300 hover:text-white hover:bg-white/[0.04] text-xs font-medium transition">
+              <svg class="w-4 h-4 text-[#a9b8ca]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path></svg>
+              <span>Vessel marketplace</span>
+            </a>
+            
+            <!-- Submit Vessel CTA -->
+            <a href="submit-vessel.html" class="flex items-center justify-center gap-2 w-full my-2 px-3 py-2.5 rounded-xl bg-[#ffbe4d] hover:bg-[#f5a524] text-slate-950 font-display font-bold text-xs tracking-wide shadow-md shadow-[#ffbe4d]/10 transition">
+              <span>Submit a vessel</span>
+            </a>
+
+            <!-- Active Messages -->
+            <a href="client-messages.html" class="flex items-center justify-between px-3 py-2 rounded-xl bg-white/[0.06] border border-white/[0.08] text-white text-xs font-semibold transition">
+              <div class="flex items-center gap-3">
+                <svg class="w-4 h-4 text-[#ffbe4d]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"/></svg>
+                <span>Messages</span>
+              </div>
+              <span class="w-4 h-4 rounded-full bg-[#ffbe4d] text-slate-950 font-bold text-[10px] flex items-center justify-center">2</span>
+            </a>
+          </nav>
+        </div>
+
+        <!-- Account Menu -->
+        <div>
+          <div class="font-mono text-[10px] uppercase tracking-wider text-slate-400 font-semibold px-2 mb-2">Account</div>
+          <nav class="space-y-1">
+            <a href="client-profile.html" class="flex items-center gap-3 px-3 py-2 rounded-xl text-slate-300 hover:text-white hover:bg-white/[0.04] text-xs font-medium transition">
+              <svg class="w-4 h-4 text-[#a9b8ca]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"/></svg>
+              <span>Profile</span>
+            </a>
+          </nav>
+        </div>
+      </div>
+    </aside>
+
+    <!-- Main Workspace Content -->
+    <main class="flex-1 flex flex-col bg-[#050b14] overflow-hidden">
+      
+      <!-- Top Bar: Breadcrumb + Languages + Profile Dropdown -->
+      <header class="border-b border-white/[0.08] bg-[#071120] px-6 py-3.5 flex items-center justify-between">
+        <div class="flex items-center gap-2 text-xs">
+          <span class="font-mono uppercase tracking-wider text-slate-400">Client Portal</span>
+          <span class="text-white/20">&gt;</span>
+          <span class="text-white font-semibold">Messages</span>
+        </div>
+
+        <div class="flex items-center gap-3">
+          <!-- Multi-language switcher (Module 8) -->
+          <div class="px-2.5 py-1 rounded-lg border border-white/[0.08] bg-[#0b1626] font-mono text-xs text-[#a9b8ca] flex items-center gap-1.5 cursor-pointer hover:border-white/20 transition">
+            <span>EN / FR / AR</span>
+            <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
+          </div>
+
+          <!-- Notification Badges -->
+          <div class="p-1.5 rounded-lg border border-white/[0.08] bg-[#0b1626] text-[#a9b8ca] relative cursor-pointer">
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9"/></svg>
+            <span class="absolute -top-1 -right-1 w-3.5 h-3.5 rounded-full bg-[#ffbe4d] text-slate-950 font-bold text-[9px] flex items-center justify-center">2</span>
+          </div>
+
+          <div class="flex items-center gap-2 pl-2">
+            <div class="w-7 h-7 rounded-full bg-gradient-to-tr from-[#997327] to-[#ffd27a] text-slate-950 font-bold text-[11px] flex items-center justify-center">
+              YE
+            </div>
+            <div class="text-left hidden lg:block">
+              <div class="text-xs font-semibold text-white leading-tight">Yassine El Amrani</div>
+              <div class="font-mono text-[9px] uppercase tracking-wider text-[#74bdb3]">Verified Client</div>
+            </div>
+          </div>
+        </div>
+      </header>
+
+      <!-- Chat Two-Panel Workspace -->
+      <div class="flex-1 p-6 grid grid-cols-1 lg:grid-cols-12 gap-6 overflow-hidden">
+        
+        <!-- Left Panel: Conversations & Friends (Module 3 + 4) -->
+        <div class="lg:col-span-4 rounded-2xl border border-white/[0.08] bg-[#071120] p-4 flex flex-col">
+          <div class="font-mono text-[10px] uppercase tracking-wider text-slate-400 mb-3">Left Panel</div>
+          
+          <!-- Category Tabs -->
+          <div class="grid grid-cols-3 gap-1.5 p-1 rounded-xl bg-[#0b1626] border border-white/[0.06] mb-4 text-xs font-medium">
+            <button class="py-1.5 rounded-lg bg-[#071120] border border-white/10 text-white font-semibold">All (5)</button>
+            <button class="py-1.5 rounded-lg text-slate-400 hover:text-white">Friends (3)</button>
+            <button class="py-1.5 rounded-lg text-slate-400 hover:text-white">Yard Staff (2)</button>
+          </div>
+
+          <!-- Chat List -->
+          <div class="space-y-2 overflow-y-auto flex-1 pr-1">
+            
+            <!-- Item 1 (Selected Active) -->
+            <div class="p-3 rounded-xl bg-[#0f1c30] border border-white/20 cursor-pointer flex items-center gap-3 transition">
+              <div class="relative">
+                <div class="w-10 h-10 rounded-full bg-slate-700 flex items-center justify-center text-white font-semibold text-xs overflow-hidden">
+                  <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=100&h=100&fit=crop&crop=face" alt="Omar" class="w-full h-full object-cover">
+                </div>
+                <span class="absolute bottom-0 right-0 w-2.5 h-2.5 rounded-full bg-emerald-400 ring-2 ring-[#071120]"></span>
+              </div>
+              <div class="flex-1 min-w-0">
+                <div class="flex items-center justify-between">
+                  <span class="text-sm font-semibold text-white truncate">Omar Benali</span>
+                  <span class="w-2 h-2 rounded-full bg-emerald-400"></span>
+                </div>
+                <p class="text-xs text-[#74bdb3] truncate mt-0.5">Check out the Atlas Venturer listing...</p>
+              </div>
+            </div>
+
+            <!-- Item 2 -->
+            <div class="p-3 rounded-xl bg-[#0b1626]/60 border border-white/[0.04] hover:bg-[#0b1626] cursor-pointer flex items-center gap-3 transition">
+              <div class="relative">
+                <div class="w-10 h-10 rounded-full bg-slate-700 flex items-center justify-center text-white font-semibold text-xs overflow-hidden">
+                  <img src="https://images.unsplash.com/photo-1580489944761-15a19d654956?w=100&h=100&fit=crop&crop=face" alt="Sarah" class="w-full h-full object-cover">
+                </div>
+                <span class="absolute bottom-0 right-0 w-2.5 h-2.5 rounded-full bg-emerald-400 ring-2 ring-[#071120]"></span>
+              </div>
+              <div class="flex-1 min-w-0">
+                <div class="flex items-center justify-between">
+                  <span class="text-sm font-semibold text-slate-200 truncate">Sarah Mansour</span>
+                  <span class="w-2 h-2 rounded-full bg-emerald-400"></span>
+                </div>
+                <p class="text-xs text-slate-400 truncate mt-0.5">Marina B plans sound good!</p>
+              </div>
+            </div>
+
+            <!-- Item 3 -->
+            <div class="p-3 rounded-xl bg-[#0b1626]/60 border border-white/[0.04] hover:bg-[#0b1626] cursor-pointer flex items-center gap-3 transition">
+              <div class="relative">
+                <div class="w-10 h-10 rounded-full bg-slate-700 flex items-center justify-center text-white font-semibold text-xs overflow-hidden">
+                  <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=100&h=100&fit=crop&crop=face" alt="Karim" class="w-full h-full object-cover">
+                </div>
+                <span class="absolute bottom-0 right-0 w-2.5 h-2.5 rounded-full bg-emerald-400 ring-2 ring-[#071120]"></span>
+              </div>
+              <div class="flex-1 min-w-0">
+                <div class="flex items-center justify-between">
+                  <span class="text-sm font-semibold text-slate-200 truncate">Karim Bouh</span>
+                  <span class="w-2 h-2 rounded-full bg-emerald-400"></span>
+                </div>
+                <p class="text-xs text-slate-400 truncate mt-0.5">Let's catch up later.</p>
+              </div>
+            </div>
+
+            <!-- Item 4 -->
+            <div class="p-3 rounded-xl bg-[#0b1626]/60 border border-white/[0.04] hover:bg-[#0b1626] cursor-pointer flex items-center gap-3 transition">
+              <div class="relative">
+                <div class="w-10 h-10 rounded-full bg-slate-700 flex items-center justify-center text-white font-semibold text-xs overflow-hidden">
+                  <img src="https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=100&h=100&fit=crop&crop=face" alt="Hakim" class="w-full h-full object-cover">
+                </div>
+                <span class="absolute bottom-0 right-0 w-2.5 h-2.5 rounded-full bg-slate-500 ring-2 ring-[#071120]"></span>
+              </div>
+              <div class="flex-1 min-w-0">
+                <div class="flex items-center justify-between">
+                  <span class="text-sm font-semibold text-slate-200 truncate">Hakim Benjelloun</span>
+                  <span class="w-2 h-2 rounded-full bg-slate-500"></span>
+                </div>
+                <p class="text-xs text-slate-400 truncate mt-0.5">I will check the survey details.</p>
+              </div>
+            </div>
+
+          </div>
+        </div>
+
+        <!-- Right Panel: Active Main Chat (Module 2 Real-time WebSockets) -->
+        <div class="lg:col-span-8 rounded-2xl border border-white/[0.08] bg-[#071120] flex flex-col overflow-hidden">
+          
+          <!-- Chat Top Header -->
+          <div class="px-6 py-4 border-b border-white/[0.08] flex items-center justify-between bg-[#0b1626]/50">
+            <div class="flex items-center gap-3">
+              <div class="relative">
+                <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=100&h=100&fit=crop&crop=face" alt="Omar" class="w-9 h-9 rounded-full object-cover">
+                <span class="absolute bottom-0 right-0 w-2.5 h-2.5 rounded-full bg-emerald-400 ring-2 ring-[#071120]"></span>
+              </div>
+              <div>
+                <div class="text-sm font-bold text-white flex items-center gap-2">
+                  <span>Omar Benali</span>
+                  <span class="text-slate-400">• Friend •</span>
+                  <span class="text-emerald-400 font-mono text-xs">Online</span>
+                </div>
+                <div class="text-[11px] text-[#74bdb3] font-mono">Online presence</div>
+              </div>
+            </div>
+
+            <button class="p-2 text-slate-400 hover:text-white rounded-lg hover:bg-white/[0.05] transition">
+              <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20"><circle cx="10" cy="4" r="2"/><circle cx="10" cy="10" r="2"/><circle cx="10" cy="16" r="2"/></svg>
+            </button>
+          </div>
+
+          <!-- Messages Stream -->
+          <div class="flex-1 p-6 space-y-4 overflow-y-auto">
+            
+            <!-- Message from Omar -->
+            <div class="flex items-start gap-3 max-w-xl">
+              <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=80&h=80&fit=crop&crop=face" class="w-8 h-8 rounded-full object-cover shrink-0 mt-1">
+              <div>
+                <div class="text-[11px] font-mono text-slate-400 mb-1">Omar <span class="text-slate-400">10:30 AM</span></div>
+                <div class="p-3.5 rounded-2xl bg-[#0b1626] border border-white/[0.06] text-xs sm:text-sm text-slate-200 leading-relaxed">
+                  Hey Yassine, I'm looking at vessel listings for Marina B. Found something interesting.
+                </div>
+              </div>
+            </div>
+
+            <!-- Outgoing from Yassine -->
+            <div class="flex items-start justify-end gap-3 ml-auto max-w-lg">
+              <div>
+                <div class="text-[11px] font-mono text-slate-400 mb-1 text-right">Yassine <span class="text-slate-400">10:31 AM</span></div>
+                <div class="p-3.5 rounded-2xl bg-[#0f1c30] border border-white/20 text-xs sm:text-sm text-white leading-relaxed">
+                  What did you find, Omar?
+                </div>
+              </div>
+              <div class="w-8 h-8 rounded-full bg-gradient-to-tr from-[#997327] to-[#ffd27a] text-slate-950 font-bold text-xs flex items-center justify-center shrink-0 mt-1">
+                YE
+              </div>
+            </div>
+
+            <!-- Message from Omar with Vessel Card -->
+            <div class="flex items-start gap-3 max-w-xl">
+              <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=80&h=80&fit=crop&crop=face" class="w-8 h-8 rounded-full object-cover shrink-0 mt-1">
+              <div class="space-y-2">
+                <div class="text-[11px] font-mono text-slate-400 mb-1">Omar <span class="text-slate-400">10:32 AM</span></div>
+                <div class="p-3.5 rounded-2xl bg-[#0b1626] border border-white/[0.06] text-xs sm:text-sm text-slate-200">
+                  This one. Good specs, recent listing.
+                </div>
+
+                <!-- Vessel Card Embedded in Chat -->
+                <div class="p-3 rounded-xl bg-[#071120] border border-white/[0.1] hover:border-[#ffbe4d]/40 flex gap-3 transition">
+                  <div class="w-20 h-16 rounded-lg bg-slate-800 overflow-hidden shrink-0">
+                    <img src="https://images.unsplash.com/photo-1569263979104-865ab7cd8d13?w=300&h=200&fit=crop" class="w-full h-full object-cover">
+                  </div>
+                  <div class="text-xs">
+                    <div class="font-display font-bold text-white text-sm">Atlas Venturer</div>
+                    <div class="font-mono text-[11px] text-slate-400">Length: 13 m</div>
+                    <div class="font-mono font-bold text-[#ffbe4d] text-xs">Price: $8,900</div>
+                    <a href="client-marketplace.html" class="text-[11px] text-[#74bdb3] hover:underline mt-1 block">View details for Atlas Venturer &rarr;</a>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Outgoing from Yassine -->
+            <div class="flex items-start justify-end gap-3 ml-auto max-w-lg">
+              <div>
+                <div class="text-[11px] font-mono text-slate-400 mb-1 text-right">Yassine <span class="text-slate-400">10:33 AM</span></div>
+                <div class="p-3.5 rounded-2xl bg-[#0f1c30] border border-white/20 text-xs sm:text-sm text-white leading-relaxed">
+                  Nice! Looks clean. Let's compare with the others. When can you meet to discuss?
+                </div>
+              </div>
+              <div class="w-8 h-8 rounded-full bg-gradient-to-tr from-[#997327] to-[#ffd27a] text-slate-950 font-bold text-xs flex items-center justify-center shrink-0 mt-1">
+                YE
+              </div>
+            </div>
+
+            <!-- Omar reply -->
+            <div class="flex items-start gap-3 max-w-xl">
+              <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=80&h=80&fit=crop&crop=face" class="w-8 h-8 rounded-full object-cover shrink-0 mt-1">
+              <div>
+                <div class="text-[11px] font-mono text-slate-400 mb-1">Omar <span class="text-slate-400">10:34 AM</span></div>
+                <div class="p-3.5 rounded-2xl bg-[#0b1626] border border-white/[0.06] text-xs sm:text-sm text-slate-200 leading-relaxed">
+                  I can do this afternoon. Say, 3 PM at the main marina office?
+                </div>
+              </div>
+            </div>
+
+          </div>
+
+          <!-- Bottom Message Composer -->
+          <div class="p-4 border-t border-white/[0.08] bg-[#071120]">
+            <form class="flex items-center gap-3">
+              <button type="button" class="p-2 text-slate-400 hover:text-white rounded-lg hover:bg-white/[0.05] transition">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.172 7l-6.586 6.586a2 2 0 102.828 2.828l6.414-6.586a4 4 0 00-5.656-5.656l-6.415 6.585a6 6 0 108.486 8.486L20.5 13"/></svg>
+              </button>
+              <input 
+                type="text" 
+                placeholder="Type your message..." 
+                class="flex-1 rounded-xl bg-[#0b1626] border border-white/[0.08] px-4 py-2.5 text-sm text-white placeholder-slate-500 focus:outline-none focus:border-[#ffbe4d] focus:ring-1 focus:ring-[#ffbe4d] transition"
+              />
+              <button 
+                type="submit" 
+                class="px-5 py-2.5 rounded-xl bg-[#ffbe4d] hover:bg-[#f5a524] text-slate-950 font-display font-bold text-xs tracking-wide shadow-md transition"
+              >
+                Send
+              </button>
+            </form>
+          </div>
+
+        </div>
+
+      </div>
+
+      <!-- Marine Yard Footer -->
+      <footer class="w-full border-t border-white/[0.06] bg-[#050b14] py-3.5 px-6 text-[11px] font-mono text-[#a9b8ca]">
+        <div class="max-w-7xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-2">
+          <div class="flex items-center gap-2">
+            <span class="text-[#74bdb3]">⚓</span>
+            <span>NAVICRAFT MARINE ENGINEERING</span>
+            <span class="text-white/20">•</span>
+            <span>YARD 04, CASABLANCA</span>
+          </div>
+          <div class="flex items-center gap-2">
+            <span class="text-[#ffbe4d]">📞</span>
+            <span>YARD LINE: +212 522 304 118</span>
+          </div>
+        </div>
+      </footer>
+
+    </main>
+
+  </div>
+
+</body>
+</html>

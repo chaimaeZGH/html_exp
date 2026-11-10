@@ -1,0 +1,610 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>NaviCraft — Submit Vessel for Verification &amp; Listing</title>
+  <meta name="description" content="Submit vessel specifications and maritime legal documentation for verification and marketplace listing.">
+  <link rel="icon" type="image/svg+xml" href="public/favicon.svg">
+  
+  <!-- Google Fonts: Sora (display), Inter (body), JetBrains Mono (tech/code) -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&family=Sora:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+  <!-- Tailwind CSS via CDN with configured NaviCraft Palette -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            brand: {
+              obsidian: "#050b14",
+              surface: "#071120",
+              panel: "#0b1626",
+              card: "#0f1c30",
+              gold: "#ffbe4d",
+              goldHover: "#f5a524",
+              teal: "#74bdb3",
+              muted: "#a9b8ca",
+            }
+          },
+          fontFamily: {
+            sans: ["Inter", "sans-serif"],
+            display: ["Sora", "sans-serif"],
+            mono: ["JetBrains Mono", "monospace"],
+          }
+        }
+      }
+    }
+  </script>
+
+  <style>
+    body {
+      background-color: #050b14;
+      color: #f1f5f9;
+      font-family: "Inter", sans-serif;
+      min-height: 100vh;
+      -webkit-font-smoothing: antialiased;
+    }
+    .font-display { font-family: "Sora", sans-serif; }
+    .font-mono { font-family: "JetBrains Mono", monospace; }
+
+    select {
+      background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 20 20'%3e%3cpath stroke='%23a9b8ca' stroke-linecap='round' stroke-linejoin='round' stroke-width='1.5' d='M6 8l4 4 4-4'/%3e%3c/svg%3e");
+      background-position: right 1rem center;
+      background-repeat: no-repeat;
+      background-size: 1.25rem 1.25rem;
+      -webkit-appearance: none;
+      -moz-appearance: none;
+      appearance: none;
+    }
+
+    ::-webkit-scrollbar { width: 5px; height: 5px; }
+    ::-webkit-scrollbar-track { background: #071120; }
+    ::-webkit-scrollbar-thumb { background: #1a273b; border-radius: 9999px; }
+  </style>
+</head>
+<body class="flex flex-col min-h-screen bg-[#050b14] text-slate-100 antialiased selection:bg-[#ffbe4d]/30 selection:text-[#ffbe4d]">
+
+  <!-- Top Role Switcher Header Bar -->
+  <div class="w-full border-b border-white/[0.08] bg-[#071120] px-6 py-2.5 flex items-center justify-between text-xs z-50">
+    <div class="flex items-center gap-2">
+      <span class="w-2 h-2 rounded-full bg-[#ffbe4d] animate-pulse"></span>
+      <span class="font-mono text-[10px] text-[#ffbe4d] tracking-wider uppercase font-semibold">Demo Role Switcher</span>
+      <span class="text-slate-400 hidden sm:inline">— Experience the market, client portal and yard console instantly</span>
+    </div>
+    <div class="flex items-center gap-1.5 font-medium">
+      <a href="visitor.html" class="px-2.5 py-1 rounded text-slate-400 hover:text-white hover:bg-white/[0.04] transition flex items-center gap-1 text-[11px]">
+        <span>👁</span> Visitor
+      </a>
+      <a href="client-dashboard.html" class="px-2.5 py-1 rounded bg-[#0b1626] border border-white/[0.1] text-white font-semibold transition flex items-center gap-1 text-[11px]">
+        <span>👤</span> Client
+      </a>
+      <a href="admin-operations.html" class="px-2.5 py-1 rounded text-slate-400 hover:text-white hover:bg-white/[0.04] transition flex items-center gap-1 text-[11px]">
+        <span>⚓</span> Yard Master
+      </a>
+    </div>
+  </div>
+
+  <!-- Primary Application Layout (Sidebar + Main Workspace) -->
+  <div class="flex-1 flex flex-col md:flex-row">
+    
+    <!-- Left Navigation Sidebar -->
+    <aside class="w-full md:w-64 border-r border-white/[0.08] bg-[#071120] p-4 flex flex-col justify-between shrink-0">
+      <div>
+        <!-- Logo -->
+        <a href="visitor.html" class="flex items-center gap-3 px-2 py-3 mb-6 hover:opacity-90 transition cursor-pointer">
+          <div class="w-8 h-8 rounded-lg bg-gradient-to-br from-[#ffbe4d]/20 to-[#74bdb3]/10 border border-[#ffbe4d]/30 flex items-center justify-center text-[#ffbe4d]">
+            <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <polygon points="12 2 2 7 12 12 22 7 12 2"></polygon>
+              <polyline points="2 17 12 22 22 17"></polyline>
+              <polyline points="2 12 12 17 22 12"></polyline>
+            </svg>
+          </div>
+          <div>
+            <div class="font-display font-bold text-base text-white tracking-tight">NaviCraft</div>
+            <div class="font-mono text-[8px] uppercase tracking-widest text-[#74bdb3]">Marine Engineering</div>
+          </div>
+        </a>
+
+        <!-- Client Area Menu -->
+        <div class="mb-6">
+          <div class="font-mono text-[10px] uppercase tracking-wider text-slate-400 font-semibold px-2 mb-2">Client Area</div>
+          <nav class="space-y-1">
+            <!-- Dashboard link -->
+            <a href="client-dashboard.html" class="flex items-center gap-3 px-3 py-2 rounded-xl text-slate-300 hover:text-white hover:bg-white/[0.04] text-xs font-medium transition">
+              <svg class="w-4 h-4 text-[#a9b8ca]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7"></rect><rect x="14" y="3" width="7" height="7"></rect><rect x="14" y="14" width="7" height="7"></rect><rect x="3" y="14" width="7" height="7"></rect></svg>
+              <span>Dashboard</span>
+            </a>
+            
+            <!-- Vessel Marketplace -->
+            <a href="client-marketplace.html" class="flex items-center gap-3 px-3 py-2 rounded-xl text-slate-300 hover:text-white hover:bg-white/[0.04] text-xs font-medium transition">
+              <svg class="w-4 h-4 text-[#a9b8ca]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path></svg>
+              <span>Vessel marketplace</span>
+            </a>
+            
+            <!-- Active Submit a Vessel CTA -->
+            <a href="submit-vessel.html" class="flex items-center justify-center gap-2 w-full my-2 px-3 py-2.5 rounded-xl bg-[#ffbe4d] text-slate-950 font-display font-bold text-xs tracking-wide shadow-md shadow-[#ffbe4d]/20 transition ring-2 ring-[#ffbe4d]/40">
+              <svg class="w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
+              <span>Submit a vessel</span>
+            </a>
+
+            <!-- Messages with badge -->
+            <a href="client-messages.html" class="flex items-center justify-between px-3 py-2 rounded-xl text-slate-300 hover:text-white hover:bg-white/[0.04] text-xs font-medium transition">
+              <div class="flex items-center gap-3">
+                <svg class="w-4 h-4 text-[#a9b8ca]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"/></svg>
+                <span>Messages</span>
+              </div>
+              <span class="w-4 h-4 rounded-full bg-[#ffbe4d] text-slate-950 font-bold text-[10px] flex items-center justify-center">2</span>
+            </a>
+          </nav>
+        </div>
+
+        <!-- Account Menu -->
+        <div>
+          <div class="font-mono text-[10px] uppercase tracking-wider text-slate-400 font-semibold px-2 mb-2">Account</div>
+          <nav class="space-y-1">
+            <a href="client-profile.html" class="flex items-center gap-3 px-3 py-2 rounded-xl text-slate-300 hover:text-white hover:bg-white/[0.04] text-xs font-medium transition">
+              <svg class="w-4 h-4 text-[#a9b8ca]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"/></svg>
+              <span>Profile</span>
+            </a>
+          </nav>
+        </div>
+      </div>
+
+      <!-- Quick Return to Visitor Landing -->
+      <div class="border-t border-white/[0.06] pt-4 mt-6">
+        <a href="visitor.html" class="flex items-center gap-2 text-[11px] text-[#a9b8ca] hover:text-[#ffbe4d] transition">
+          <span>←</span> Back to Visitor Marketplace
+        </a>
+      </div>
+    </aside>
+
+    <!-- Main Workspace Content -->
+    <main class="flex-1 flex flex-col bg-[#050b14]">
+      
+      <!-- Top Bar: Breadcrumb + Languages + Profile Dropdown -->
+      <header class="border-b border-white/[0.08] bg-[#071120] px-6 py-3.5 flex items-center justify-between">
+        <div class="flex items-center gap-2 text-xs">
+          <a href="client-dashboard.html" class="font-mono uppercase tracking-wider text-slate-400 hover:text-white transition">Client Portal</a>
+          <span class="text-slate-600">›</span>
+          <span class="text-white font-medium">Submit Vessel for Verification &amp; Listing</span>
+        </div>
+
+        <div class="flex items-center gap-4">
+          <!-- Language selector -->
+          <button class="px-2.5 py-1 rounded-lg border border-white/[0.08] bg-[#0b1626] text-xs font-mono text-[#a9b8ca] hover:text-white flex items-center gap-1.5 transition">
+            <span>EN/FR/AR</span>
+            <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
+          </button>
+
+          <!-- Chat messages button -->
+          <a href="client-messages.html" class="p-1.5 rounded-lg border border-white/[0.08] bg-[#0b1626] text-[#a9b8ca] hover:text-white relative transition">
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"/></svg>
+            <span class="absolute -top-1 -right-1 w-3.5 h-3.5 rounded-full bg-[#ffbe4d] text-slate-950 font-bold text-[9px] flex items-center justify-center">2</span>
+          </a>
+
+          <!-- Notification bell -->
+          <div class="p-1.5 rounded-lg border border-white/[0.08] bg-[#0b1626] text-[#a9b8ca] relative cursor-pointer">
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9"/></svg>
+            <span class="absolute -top-1 -right-1 w-3.5 h-3.5 rounded-full bg-[#ffbe4d] text-slate-950 font-bold text-[9px] flex items-center justify-center">2</span>
+          </div>
+
+          <!-- Verified User Avatar -->
+          <a href="client-profile.html" class="flex items-center gap-2 pl-2 hover:opacity-90 transition">
+            <div class="w-8 h-8 rounded-full bg-gradient-to-tr from-[#997327] to-[#ffd27a] text-slate-950 font-bold text-xs flex items-center justify-center shadow-inner">
+              YE
+            </div>
+            <div class="text-left hidden lg:block">
+              <div class="text-xs font-semibold text-white leading-tight">Yassine El Amrani</div>
+              <div class="font-mono text-[9px] uppercase tracking-wider text-[#74bdb3]">Verified Vessel</div>
+            </div>
+          </a>
+        </div>
+      </header>
+
+      <!-- Form Container Area -->
+      <div class="p-6 md:p-8 max-w-6xl w-full">
+        
+        <!-- Header & Kind Selection -->
+        <div class="mb-8">
+          <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-4">
+            <div>
+              <h1 class="font-display text-2xl md:text-3xl font-bold tracking-tight text-white">
+                Submit Vessel for Verification &amp; Listing
+              </h1>
+              <p class="text-xs md:text-sm text-[#a9b8ca] mt-1" id="kind-tagline">
+                Direct sale to verified maritime buyers with official Title Deed &amp; Registry inspection.
+              </p>
+            </div>
+            
+            <a href="client-dashboard.html" class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg border border-white/[0.08] bg-[#071120] text-xs font-mono text-[#a9b8ca] hover:text-white transition w-fit">
+              <svg class="w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
+              <span>Back to Dashboard</span>
+            </a>
+          </div>
+
+          <!-- Kind / Category Interactive Switcher -->
+          <div class="mt-4">
+            <div class="flex items-center justify-between mb-2">
+              <label class="block font-mono text-xs uppercase tracking-wider text-[#a9b8ca] font-medium">
+                Kind
+              </label>
+              <span id="kind-badge" class="px-2 py-0.5 rounded text-[10px] font-mono uppercase tracking-wider bg-amber-400/10 text-[#ffbe4d] border border-amber-400/30 font-semibold">
+                [Sale / Listing Active]
+              </span>
+            </div>
+
+            <!-- Clickable Kind Buttons -->
+            <div class="grid grid-cols-3 max-w-xl rounded-xl border border-white/[0.08] bg-[#071120] p-1 gap-1" id="kind-selector">
+              <button 
+                type="button" 
+                id="btn-kind-sale"
+                onclick="setKind('sale')"
+                class="py-2.5 px-3 sm:px-4 rounded-lg bg-[#0f1c30] border border-[#ffbe4d]/40 text-[#ffbe4d] font-semibold text-xs md:text-sm shadow-sm transition flex items-center justify-center gap-1.5 cursor-pointer"
+              >
+                <span>[Sale / Listing]</span>
+              </button>
+              
+              <button 
+                type="button" 
+                id="btn-kind-trade"
+                onclick="setKind('trade')"
+                class="py-2.5 px-3 sm:px-4 rounded-lg text-[#a9b8ca] border border-transparent hover:text-white hover:bg-white/[0.04] font-medium text-xs md:text-sm transition flex items-center justify-center gap-1.5 cursor-pointer"
+              >
+                <span>[Trade-in]</span>
+              </button>
+              
+              <button 
+                type="button" 
+                id="btn-kind-rebuild"
+                onclick="setKind('rebuild')"
+                class="py-2.5 px-3 sm:px-4 rounded-lg text-[#a9b8ca] border border-transparent hover:text-white hover:bg-white/[0.04] font-medium text-xs md:text-sm transition flex items-center justify-center gap-1.5 cursor-pointer"
+              >
+                <span>[Rebuild &amp; Refit]</span>
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- 2-Column Split: Vessel Details & Document Upload Desk -->
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 items-start">
+          
+          <!-- Left Column: Vessel Details -->
+          <section class="space-y-4 rounded-2xl border border-white/[0.08] bg-[#071120]/60 p-5 md:p-6 backdrop-blur-sm">
+            <div class="flex items-center justify-between border-b border-white/[0.06] pb-3 mb-2">
+              <h2 class="font-display text-base font-semibold text-white tracking-wide flex items-center gap-2">
+                <svg class="w-4 h-4 text-[#ffbe4d]" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><polygon points="16.24 7.76 14.12 14.12 7.76 16.24 9.88 9.88 16.24 7.76"></polygon></svg>
+                <span>Vessel Details</span>
+              </h2>
+              <span class="font-mono text-[10px] text-[#74bdb3] uppercase tracking-wider">Naval Specs</span>
+            </div>
+
+            <div class="space-y-4">
+              <!-- Vessel Name -->
+              <div>
+                <label class="block text-xs font-medium text-[#a9b8ca] mb-1.5">Vessel Name</label>
+                <input 
+                  type="text" 
+                  id="input-vessel-name"
+                  value="Tafoukt" 
+                  placeholder="e.g. Tafoukt, Sirocco, or Atlas Venturer" 
+                  class="w-full rounded-xl bg-[#0b1626] border border-white/[0.08] px-4 py-2.5 text-sm text-white placeholder-slate-500 focus:outline-none focus:border-[#ffbe4d] focus:ring-1 focus:ring-[#ffbe4d] transition"
+                />
+              </div>
+
+              <!-- Vessel Class Dropdown -->
+              <div>
+                <label class="block text-xs font-medium text-[#a9b8ca] mb-1.5">Vessel Class</label>
+                <select id="select-vessel-class" class="w-full rounded-xl bg-[#0b1626] border border-white/[0.08] px-4 py-2.5 text-sm text-slate-200 focus:outline-none focus:border-[#ffbe4d] focus:ring-1 focus:ring-[#ffbe4d] transition">
+                  <option value="trawler" selected>Commercial Pelagic Trawler (17.2 m)</option>
+                  <option value="sardine">Coastal Sardine Carrier (14.2 m)</option>
+                  <option value="motor-yacht">Twin-Engine Motor Yacht (18.7 m)</option>
+                  <option value="feeder">Coastal Feeder Cargo (28.4 m)</option>
+                  <option value="catamaran">High-Speed Workboat / Catamaran (12.2 m)</option>
+                </select>
+              </div>
+
+              <!-- Year Built Dropdown -->
+              <div>
+                <label class="block text-xs font-medium text-[#a9b8ca] mb-1.5">Year Built</label>
+                <select id="select-year-built" class="w-full rounded-xl bg-[#0b1626] border border-white/[0.08] px-4 py-2.5 text-sm text-slate-200 focus:outline-none focus:border-[#ffbe4d] focus:ring-1 focus:ring-[#ffbe4d] transition">
+                  <option value="1983" selected>1983 (Structural refit completed)</option>
+                  <option value="2024">2024 (New build)</option>
+                  <option value="2022">2022</option>
+                  <option value="2018">2018</option>
+                  <option value="2010">2010</option>
+                  <option value="1996">1996</option>
+                  <option value="1988">1988</option>
+                  <option value="1981">1981</option>
+                </select>
+              </div>
+
+              <!-- Home Port Dropdown -->
+              <div>
+                <label class="block text-xs font-medium text-[#a9b8ca] mb-1.5">Home Port</label>
+                <select id="select-home-port" class="w-full rounded-xl bg-[#0b1626] border border-white/[0.08] px-4 py-2.5 text-sm text-slate-200 focus:outline-none focus:border-[#ffbe4d] focus:ring-1 focus:ring-[#ffbe4d] transition">
+                  <option value="casablanca" selected>Casablanca Yard 04 (MA)</option>
+                  <option value="safi">Safi Atlantic Fleet (MA)</option>
+                  <option value="tanger">Tanger-Med Maritime Hub (MA)</option>
+                  <option value="agadir">Agadir Port Commercial (MA)</option>
+                  <option value="essaouira">Essaouira Fishing Port (MA)</option>
+                  <option value="dakhla">Dakhla Deepwater Port (MA)</option>
+                </select>
+              </div>
+
+              <!-- Estimated Valuation (Dynamic label based on Kind) -->
+              <div>
+                <label class="block text-xs font-medium text-[#a9b8ca] mb-1.5" id="label-valuation">
+                  Estimated Valuation / Asking Price
+                </label>
+                <div class="relative">
+                  <div class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none text-[#ffbe4d] font-bold text-sm">
+                    €
+                  </div>
+                  <input 
+                    type="number" 
+                    id="input-valuation"
+                    value="420000" 
+                    placeholder="420000" 
+                    class="w-full rounded-xl bg-[#0b1626] border border-white/[0.08] pl-9 pr-4 py-2.5 text-sm text-white placeholder-slate-500 focus:outline-none focus:border-[#ffbe4d] focus:ring-1 focus:ring-[#ffbe4d] transition font-mono font-medium"
+                  />
+                </div>
+              </div>
+
+              <!-- Registration / Official Number -->
+              <div>
+                <label class="block text-xs font-medium text-[#a9b8ca] mb-1.5">Registration / Official Number</label>
+                <input 
+                  type="text" 
+                  id="input-reg-number"
+                  value="CAS-84920-TR" 
+                  placeholder="e.g. CAS-84920-TR or IMO 9128471" 
+                  class="w-full rounded-xl bg-[#0b1626] border border-white/[0.08] px-4 py-2.5 text-sm text-white placeholder-slate-500 focus:outline-none focus:border-[#ffbe4d] focus:ring-1 focus:ring-[#ffbe4d] transition font-mono text-xs uppercase"
+                />
+              </div>
+
+              <!-- Kind Contextual Note -->
+              <div id="kind-note" class="rounded-xl border border-white/[0.06] bg-[#0b1626]/80 p-3 text-xs text-slate-300">
+                <span class="text-[#ffbe4d] font-semibold">Sale / Listing Mode:</span> Upon document approval by Yard Master Hakim Benjelloun, your vessel is published directly to the verified buyers marketplace.
+              </div>
+            </div>
+          </section>
+
+          <!-- Right Column: Document Upload Desk (Module 6) -->
+          <section class="space-y-4 rounded-2xl border border-white/[0.08] bg-[#071120]/60 p-5 md:p-6 backdrop-blur-sm">
+            
+            <!-- Header with Module 6 Badge -->
+            <div class="flex items-center justify-between border-b border-white/[0.06] pb-3 mb-2">
+              <h2 class="font-display text-base font-semibold text-white tracking-wide flex items-center gap-2">
+                <svg class="w-4 h-4 text-[#74bdb3]" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line><polyline points="10 9 9 9 8 9"></polyline></svg>
+                <span>Document Upload Desk</span>
+              </h2>
+              <span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-lg bg-[#0b1626] border border-white/[0.08] text-[11px] font-mono text-[#74bdb3]">
+                Module 6
+              </span>
+            </div>
+
+            <div class="space-y-4">
+              
+              <!-- Document 1: Title Deed (Status: Uploaded & Validated) -->
+              <div>
+                <label class="block text-xs font-medium text-[#a9b8ca] mb-1.5 flex items-center justify-between">
+                  <span>Title Deed (Acte de Propriété)</span>
+                  <span class="font-mono text-[10px] text-emerald-400">Validated</span>
+                </label>
+                <div class="flex items-center justify-between p-3.5 rounded-xl border border-emerald-500/40 bg-emerald-500/[0.06] backdrop-blur-sm">
+                  <div class="flex items-center gap-3">
+                    <div class="w-9 h-9 rounded-lg bg-emerald-500/20 text-emerald-400 flex items-center justify-center">
+                      <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>
+                      </svg>
+                    </div>
+                    <div>
+                      <div class="text-sm font-medium text-white tracking-wide">TitleDeed_Vessel_Tafoukt.pdf</div>
+                      <div class="font-mono text-[10px] text-emerald-400/80">Cleared (2.4 MB) • Mortgage Free</div>
+                    </div>
+                  </div>
+                  
+                  <!-- Green Checkmark Pill -->
+                  <div class="w-6 h-6 rounded-full bg-emerald-500/20 text-emerald-400 border border-emerald-500/40 flex items-center justify-center">
+                    <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"/>
+                    </svg>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Document 2: Certificate of Registry (Status: Uploading 75%) -->
+              <div>
+                <label class="block text-xs font-medium text-[#a9b8ca] mb-1.5 flex items-center justify-between">
+                  <span>Certificate of Registry (Congé de Navigation)</span>
+                  <span class="font-mono text-[10px] text-sky-400">Uploading 75%</span>
+                </label>
+                <div class="relative overflow-hidden p-3.5 rounded-xl border border-sky-500/30 bg-[#0b1626] backdrop-blur-sm">
+                  <div class="flex items-center justify-between mb-2">
+                    <div class="flex items-center gap-3">
+                      <div class="w-9 h-9 rounded-lg bg-sky-500/15 text-sky-400 flex items-center justify-center">
+                        <svg class="w-5 h-5 animate-pulse" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-8l-4-4m0 0L8 8m4-4v12"/>
+                        </svg>
+                      </div>
+                      <div>
+                        <div class="text-sm font-medium text-white tracking-wide">registry_cert_maroc.png</div>
+                        <div class="text-[11px] text-[#a9b8ca]">Verifying Ministry of Fisheries Seal...</div>
+                      </div>
+                    </div>
+                    
+                    <span class="font-mono text-xs font-semibold text-sky-400">75%</span>
+                  </div>
+
+                  <!-- Progress bar track -->
+                  <div class="w-full bg-slate-800 rounded-full h-1.5 overflow-hidden">
+                    <div class="bg-gradient-to-r from-sky-500 to-[#74bdb3] h-1.5 rounded-full" style="width: 75%"></div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Document 3: Survey Report / Photos (Status: Dropzone) -->
+              <div>
+                <label class="block text-xs font-medium text-[#a9b8ca] mb-1.5 flex items-center justify-between">
+                  <span>Maritime Survey Report &amp; Hull Photos</span>
+                  <span class="font-mono text-[10px] text-[#a9b8ca]">Required</span>
+                </label>
+                <div 
+                  id="survey-dropzone"
+                  onclick="triggerUploadSimulation()"
+                  class="border border-dashed border-white/[0.15] hover:border-[#ffbe4d]/50 bg-[#0b1626]/60 rounded-xl p-7 flex flex-col items-center justify-center text-center cursor-pointer group transition"
+                >
+                  <div class="w-12 h-12 rounded-xl bg-[#071120] border border-white/[0.08] flex items-center justify-center text-[#a9b8ca] group-hover:text-[#ffbe4d] group-hover:scale-105 transition mb-3">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M12 4v16m8-8H4"/>
+                    </svg>
+                  </div>
+
+                  <div class="text-xs sm:text-sm font-medium text-slate-300 mb-1" id="dropzone-label">
+                    Drag and drop or <span class="text-[#74bdb3] underline group-hover:text-[#ffbe4d] transition">Browse...</span>
+                  </div>
+                  <div class="text-[11px] text-[#a9b8ca]/70 font-mono">
+                    PDF, JPG, PNG or DWG (max 25MB)
+                  </div>
+                </div>
+              </div>
+
+            </div>
+
+            <!-- Submit for Verification CTA Button -->
+            <div class="pt-4">
+              <button 
+                type="button" 
+                id="btn-submit-action"
+                onclick="submitVesselForm()"
+                class="w-full py-3.5 px-6 rounded-xl bg-[#ffbe4d] hover:bg-[#f5a524] text-slate-950 font-display font-bold text-sm tracking-wide shadow-lg shadow-[#ffbe4d]/10 hover:shadow-[#ffbe4d]/20 hover:scale-[1.01] active:scale-[0.99] transition cursor-pointer flex items-center justify-center gap-2"
+              >
+                <span>Submit for Verification</span>
+                <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="9 18 15 12 9 6"></polyline></svg>
+              </button>
+            </div>
+
+          </section>
+
+        </div>
+
+      </div>
+
+    </main>
+  </div>
+
+  <!-- Submission Success Modal Toast -->
+  <div id="success-modal" class="hidden fixed inset-0 z-[100] bg-slate-950/80 backdrop-blur-md flex items-center justify-center p-4">
+    <div class="max-w-md w-full bg-[#071120] border border-[#ffbe4d]/40 rounded-2xl p-6 shadow-2xl text-center animate-fade-in">
+      <div class="w-14 h-14 rounded-full bg-emerald-500/20 text-emerald-400 border border-emerald-500/40 flex items-center justify-center mx-auto mb-4">
+        <svg class="w-7 h-7" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"></polyline></svg>
+      </div>
+      <h3 class="font-display text-xl font-bold text-white mb-2" id="modal-title">
+        Vessel Submitted for Verification!
+      </h3>
+      <p class="text-xs text-[#a9b8ca] leading-relaxed mb-6" id="modal-desc">
+        Your vessel specifications and Module 6 documentation have been queued for inspection by Yard Master Hakim Benjelloun.
+      </p>
+      <div class="flex gap-3 justify-center">
+        <a href="client-dashboard.html" class="px-5 py-2.5 rounded-xl bg-[#ffbe4d] hover:bg-[#f5a524] text-slate-950 font-bold text-xs transition shadow-md">
+          Go to Dashboard
+        </a>
+        <button onclick="closeModal()" class="px-4 py-2.5 rounded-xl bg-white/[0.06] hover:bg-white/[0.1] text-slate-300 text-xs font-medium transition">
+          Stay on Page
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Interactive JavaScript for Kind Switcher & Upload Simulation -->
+  <script>
+    let currentKind = "sale";
+
+    const kindData = {
+      sale: {
+        badge: "[Sale / Listing Active]",
+        tagline: "Direct sale to verified maritime buyers with official Title Deed & Registry inspection.",
+        valuationLabel: "Estimated Valuation / Asking Price (€)",
+        note: "<span class='text-[#ffbe4d] font-semibold'>Sale / Listing Mode:</span> Upon document approval by Yard Master Hakim Benjelloun, your vessel is published directly to the verified buyers marketplace.",
+        btnText: "Submit for Verification & Listing"
+      },
+      trade: {
+        badge: "[Trade-in & Exchange Active]",
+        tagline: "Trade in your current hull toward another vessel in the live NaviCraft fleet. Yard appraisal applied toward purchase.",
+        valuationLabel: "Estimated Trade-in Valuation Credit (€)",
+        note: "<span class='text-[#ffbe4d] font-semibold'>Trade-in Mode:</span> The yard will appraise your existing hull structure. Approved credit can be applied immediately to purchase any active fleet vessel.",
+        btnText: "Submit for Trade-in Appraisal"
+      },
+      rebuild: {
+        badge: "[Rebuild & Refit Active]",
+        tagline: "Engineering-led hull plating, superstructure refit, and propulsion overhaul at Casablanca Yard 04.",
+        valuationLabel: "Target Rebuild & Refit Budget (€)",
+        note: "<span class='text-[#ffbe4d] font-semibold'>Rebuild & Refit Mode:</span> Dedicated dry-dock berth allocated at Yard 04. Naval architects will formulate a structural dossier and ultrasonic plate test report.",
+        btnText: "Submit Rebuild & Refit Brief"
+      }
+    };
+
+    function setKind(kind) {
+      currentKind = kind;
+
+      // Update buttons styling
+      const btnSale = document.getElementById("btn-kind-sale");
+      const btnTrade = document.getElementById("btn-kind-trade");
+      const btnRebuild = document.getElementById("btn-kind-rebuild");
+
+      const activeClass = "py-2.5 px-3 sm:px-4 rounded-lg bg-[#0f1c30] border border-[#ffbe4d]/40 text-[#ffbe4d] font-semibold text-xs md:text-sm shadow-sm transition flex items-center justify-center gap-1.5 cursor-pointer";
+      const inactiveClass = "py-2.5 px-3 sm:px-4 rounded-lg text-[#a9b8ca] border border-transparent hover:text-white hover:bg-white/[0.04] font-medium text-xs md:text-sm transition flex items-center justify-center gap-1.5 cursor-pointer";
+
+      btnSale.className = (kind === "sale") ? activeClass : inactiveClass;
+      btnTrade.className = (kind === "trade") ? activeClass : inactiveClass;
+      btnRebuild.className = (kind === "rebuild") ? activeClass : inactiveClass;
+
+      // Update text descriptions
+      const data = kindData[kind];
+      document.getElementById("kind-badge").innerText = data.badge;
+      document.getElementById("kind-tagline").innerText = data.tagline;
+      document.getElementById("label-valuation").innerText = data.valuationLabel;
+      document.getElementById("kind-note").innerHTML = data.note;
+      document.getElementById("btn-submit-action").querySelector("span").innerText = data.btnText;
+    }
+
+    // Auto-select tab if query string ?kind=trade or ?kind=rebuild exists
+    window.addEventListener("DOMContentLoaded", () => {
+      const urlParams = new URLSearchParams(window.location.search);
+      const requestedKind = urlParams.get("kind");
+      if (requestedKind && kindData[requestedKind]) {
+        setKind(requestedKind);
+      }
+    });
+
+    // Upload simulation
+    function triggerUploadSimulation() {
+      const dropzone = document.getElementById("survey-dropzone");
+      const label = document.getElementById("dropzone-label");
+      dropzone.className = "border border-emerald-500/50 bg-emerald-500/[0.05] rounded-xl p-7 flex flex-col items-center justify-center text-center cursor-pointer transition";
+      label.innerHTML = "<span class='text-emerald-400 font-semibold'>✓ Survey_Report_Ultrasonic_2026.pdf uploaded (14.2 MB)</span>";
+    }
+
+    // Submit form action
+    function submitVesselForm() {
+      const name = document.getElementById("input-vessel-name").value || "Vessel";
+      const modal = document.getElementById("success-modal");
+      const modalTitle = document.getElementById("modal-title");
+      const modalDesc = document.getElementById("modal-desc");
+
+      modalTitle.innerText = `${name} (${kindData[currentKind].badge}) Submitted!`;
+      modalDesc.innerHTML = `Your vessel <strong>${name}</strong> has been received by Yard 04. Title deed and registration documents are now under verification in Module 6.`;
+      modal.classList.remove("hidden");
+    }
+
+    function closeModal() {
+      document.getElementById("success-modal").classList.add("hidden");
+    }
+  </script>
+
+</body>
+</html>
